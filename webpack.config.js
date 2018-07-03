@@ -13,6 +13,9 @@ module.exports = {
     filename:'[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
+  devServer: {
+    contentBase: './dist'
+  },
   plugins: [
     // make sure to include the plugin for the magic
     new VueLoaderPlugin(),
@@ -21,6 +24,7 @@ module.exports = {
     //自动生成加入引用的html文件
     new HtmlWebpackPlugin({
       filename:"index.html",
+      favicon:"./fa.ico",
       title:"output management",
       template: 'index.html',
       chunks:['app','print']
