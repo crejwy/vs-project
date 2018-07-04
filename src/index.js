@@ -1,27 +1,16 @@
-import _ from "lodash"
-import printMe from './print.js';
-function component() {
-  var element = document.createElement('div');
-   var btn = document.createElement('button');
+import _ from "lodash";
+import './style.css';
 
-   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-   btn.innerHTML = 'Click me and check the console!';
-   btn.onclick = printMe;
-   element.style.display='inline';
-   element.style.zIndex='2';
-   element.style.position='absolute';
-   element.appendChild(btn);
-
-  return element;
+if (module.hot) {
+  module.hot.accept('./print.js', function() {
+    console.log('Accepting the updated printMe module!');
+    printMe();    
+  });
 }
-document.body.appendChild(component());
 
-
-import App from "../App.vue"
-// import Vue from "vue"
+import App from "../App.vue";
 new Vue({
   el:"#app",
-  // template:"<App :pages='pages'/>",
   components:{App},
   data:{
     pages:[{
@@ -32,5 +21,17 @@ new Vue({
       },
       children_el:[]
     }] 
+  },
+  methods:{
+    addpage:function(){
+      this.pages.push({
+        id:new Date().getTime(),
+        style:{
+            width:'600px',
+            height:'800px'
+        },
+        children_el:[]
+      });
+    }
   }
-})
+});

@@ -22,4 +22,7 @@ export default {
         z-index: 1;
         padding-top: 10px;
     }
+    .page:hover{
+        outline:solid 1px brown;
+    }
 </style>

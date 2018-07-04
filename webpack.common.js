@@ -1,20 +1,15 @@
 const path = require('path');
+const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   entry:{
-    app: './src/index.js',
-    print: './src/print.js'
+    app: './src/index.js',   
   },
-  devtool: 'inline-source-map',//不要用于生产环境
   output: {
-    // filename: 'bundle.js',
     filename:'[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
-  },
-  devServer: {
-    contentBase: './dist'
   },
   plugins: [
     // make sure to include the plugin for the magic
@@ -28,8 +23,10 @@ module.exports = {
       title:"output management",
       template: 'index.html',
       chunks:['app','print']
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common' // 指定公共 bundle 的名称。
     })
-
   ],
   module: {
          rules: [

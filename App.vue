@@ -25,16 +25,8 @@ export default {
         }
     },
     methods:{
-        addPage:function(){
-            this.n_pages.push({
-                id:new Date().getTime(),
-                style:{
-                    width:'600px',
-                    height:'800px'
-                },
-                children_el:[]
-            });
-            
+        addPage:function(){            
+            this.$emit("addpage")
         }
     }
 }
@@ -64,5 +56,5 @@ export default {
     .app-name{
         line-height:30px;width:100px;border:solid 1px;color:#fff;background:blue;
     }
-   
+    
 </style>
