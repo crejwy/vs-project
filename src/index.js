@@ -1,6 +1,6 @@
-import _ from "lodash";
 import './style.css';
-
+import _ from 'lodash'
+console.log(_.now());
 if (module.hot) {
   module.hot.accept('./print.js', function() {
     console.log('Accepting the updated printMe module!');
@@ -13,25 +13,23 @@ new Vue({
   el:"#app",
   components:{App},
   data:{
-    pages:[{
-      id:"firstpage",
-      style:{
-          width:'600px',
-          height:'800px'
-      },
-      children_el:[]
-    }] 
-  },
-  methods:{
-    addpage:function(){
-      this.pages.push({
-        id:new Date().getTime(),
+    document:{
+      pages:[{
+        id:"firstpage",
         style:{
             width:'600px',
             height:'800px'
         },
+        isActive:false,
         children_el:[]
-      });
+      }],
+      activepage:"firstpage"
+    }
+  },
+  methods:{
+    addpage:function(obj){
+      this.document.pages.push(obj);
+      this.document.activepage=obj.id;
     }
   }
 });

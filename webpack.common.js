@@ -23,11 +23,22 @@ module.exports = {
       title:"output management",
       template: 'index.html',
       chunks:['app','print']
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common' // 指定公共 bundle 的名称。
     })
+    // ,new webpack.ProvidePlugin({
+    //   lodash: 'lodash'
+    // })  
   ],
+  optimization: {
+    splitChunks: {
+        cacheGroups: {
+            commons: {
+                name: "common",
+                chunks: "initial",
+                minChunks: 2
+            }
+        }
+    }
+  },
   module: {
          rules: [
            {
@@ -38,9 +49,17 @@ module.exports = {
              ]
            },{
              test:/\.vue$/,
-             loader:"vue-loader",
+             use:["vue-loader"],
              exclude:/node_modules/
-           }
+           },
+           {
+            test: /\.less$/,
+            use: [
+              'style-loader',
+              { loader: 'css-loader', options: { importLoaders: 1 } },
+              'less-loader'
+            ]
+          }
          ]
        }
 };

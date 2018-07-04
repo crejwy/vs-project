@@ -2,7 +2,7 @@
     <div>        
         <div class="left-content">
             <div class="pages">
-                <cus-page v-for="pageinfo in n_pages" :page="pageinfo" :key="pageinfo.id"></cus-page> 
+                <cus-page v-for="pageinfo in n_pages" :page="pageinfo" :activepage="activepage" :key="pageinfo.id" v-on:actived="actived"></cus-page> 
             </div>
         </div>
         <div class="right-content">
@@ -18,15 +18,37 @@ export default {
     components:{        
         'cus-page':page
     },
-    props:["pages"],
+    props:['document'],
     data(){
         return {
-            n_pages:this.pages        
+            n_pages:this.document.pages,
+            activepage:""   
         }
     },
     methods:{
         addPage:function(){            
-            this.$emit("addpage")
+            this.$emit("addpage",{
+                id:new Date().getTime(),
+                style:{
+                    width:'600px',
+                    height:'800px'
+                },
+                isActive:false,
+                children_el:[]
+            }); 
+        },
+        actived:function(pageid){
+            console.log(pageid);
+            // this.activepage=pageid;
+            var index=_.findIndex(this.n_pages, ['id', pageid]);
+            var index2=_.findIndex(this.n_pages, 'isActive');
+            if(index>-1){            
+                this.n_pages[index].isActive=true;
+            }
+            if(index2>-1){
+                this.n_pages[index2].isActive=false;               
+            }
+            
         }
     }
 }
