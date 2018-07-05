@@ -1,30 +1,50 @@
 <template>
-    <div class="page" :class="{ active: n_page.isActive }" :id="n_page.id" :style="n_page.style" v-on:click="actived">
-        <component :is="childel.component" v-for="childel in n_page.children_el" :key="childel.id"></component>
+    <div class="page" :class="{ active: n_page.isActive }" :id="n_page.id" :style="n_page.style" v-on:click.self="actived" v-on:activeElementSetting="activeElementSetting">
+        <component :is="childel.component" v-for="childel in n_page.children_el" :para="childel" :key="childel.id"></component>
     </div>
 </template>
 <script>
 
-
+// page={
+//     id:new Date().getTime(),
+//     style:{
+//         width:'600px',
+//         height:'800px'
+//     },
+//     isActive:false,
+//     children_el:[]
+// }
 export default {
-    props:['page','activepage'],
+    components:{
+        'cus-icon':()=>import ('./cus-icon.vue'),
+        'cus-image':()=>import ('./cus-image.vue'),
+        'cus-input':()=>import ('./cus-input.vue'),
+        'cus-text':()=>import ('./cus-text.vue'),
+        'cus-table':()=>import ('./cus-table.vue')
+    },
+    props:['page'],
     data(){
         return {
             n_page:this.page,
-            n_activepage:this.activepage
+            location:"Page" 
         }
     },
-    computed:{
-        isActive:function(){
-            return this.n_activepage==this.n_page.id;
-        }
-        
+    computed:{        
     },
     methods:{
         actived:function(){            
-            this.$emit("actived",this.n_page.id)
+            this.$emit("actived",this.n_page.id);         
+            this.activeElementSetting({
+                    location:[],  
+                    name:"base",
+                    value:Object.assign(new settingObject.Base(),this.n_page.style)
+                })
+        },
+        activeElementSetting:function(setting){ 
+            setting.location.push({location:this.location,id:this.n_page.id});
+            this.$emit("activeElementSetting",setting);
         }
-    }
+    }    
 }
 
 </script>
@@ -37,6 +57,7 @@ export default {
         margin: 10px auto;
         z-index: 1;
         padding-top: 10px; 
+        overflow: hidden;
         &:hover{
             outline: @page-border;
         }

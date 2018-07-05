@@ -23,10 +23,14 @@ module.exports = {
       title:"output management",
       template: 'index.html',
       chunks:['app','print']
-    })
-    // ,new webpack.ProvidePlugin({
-    //   lodash: 'lodash'
-    // })  
+    }),
+    new webpack.ProvidePlugin({
+      _: 'lodash',
+      $:"jquery",
+      jQuery:"jquery",
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default']
+    })  
   ],
   optimization: {
     splitChunks: {
@@ -41,6 +45,10 @@ module.exports = {
   },
   module: {
          rules: [
+            {
+              test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+              loader: 'url-loader'
+            },
            {
              test: /\.css$/,
              use: [
