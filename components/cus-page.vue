@@ -1,10 +1,10 @@
 <template>
-    <div class="page" :class="{ active: n_page.isActive }" :id="n_page.id" :style="n_page.style" v-on:click.self="actived" v-on:activeElementSetting="activeElementSetting">
-        <component :is="childel.component" v-for="childel in n_page.children_el" :para="childel" :key="childel.id"></component>
+    <div class="page" :class="{ active: n_page.isActive }" :id="n_page.id" :style="n_page.style" v-on:click.self="actived">
+        <component :is="childel.component" v-for="childel in n_page.children_el" :para="childel" :key="childel.id"  v-on:activeElementSetting="activeElementSetting"></component>
     </div>
 </template>
 <script>
-
+import settingObject from "./f-setting"
 // page={
 //     id:new Date().getTime(),
 //     style:{
@@ -37,11 +37,13 @@ export default {
             this.activeElementSetting({
                     location:[],  
                     name:"base",
-                    value:Object.assign(new settingObject.Base(),this.n_page.style)
+                    value:Object.assign(settingObject.Base,{style:this.n_page.style})
                 })
         },
         activeElementSetting:function(setting){ 
+            console.log(this.location+' activeElementSetting');
             setting.location.push({location:this.location,id:this.n_page.id});
+            console.log(setting);
             this.$emit("activeElementSetting",setting);
         }
     }    

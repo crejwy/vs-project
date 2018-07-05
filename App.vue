@@ -2,7 +2,7 @@
     <div>        
         <div class="left-content">
             <div class="pages">
-                <cus-page v-for="pageinfo in n_pages" :page="pageinfo" :key="pageinfo.id" v-on:actived="activedPage"></cus-page> 
+                <cus-page v-for="pageinfo in n_pages" :page="pageinfo" :key="pageinfo.id" v-on:actived="activedPage" v-on:activeElementSetting="activeElementSetting"> </cus-page> 
             </div>
         </div>
         <div class="right-content">
@@ -38,13 +38,14 @@ import settingObject from "./components/f-setting"
 export default {
     components:{        
         'cus-page':page,
-        'base-setting':()=>import("./components/base-setting.vue")
+        'base-setting':()=>import("./components/base-setting.vue"),
+        'text-setting':()=>import("./components/text-setting.vue")
     },
     props:['document'],
     data(){
         return {
             n_pages:this.document.pages.map(page=>{                
-                page.isActive=page.id==this.document.activepage;
+                page.isActive=page.id==this.document.activepage;               
                 return page;
             }),
             n_activepage:this.document.activepage,
@@ -53,9 +54,10 @@ export default {
             location:"App",
             curSetting:{
                 //保存聚焦模块的位置及初始style设置
-                location:[{location:"Page",id:this.n_activepage}],  
+                location:[{location:"Page",id:this.document.activepage}],  
                 name:"base",
-                value:Object.assign({},new settingObject.Base())
+                value:Object.assign({},settingObject.Base)
+                // value:_.defaultsDeep({style:this.n_pages[_.findIndex(this.n_pages, ['id', this.document.activepage])].style},settingObject.Base) 
             } 
         }
     },
@@ -65,7 +67,8 @@ export default {
             if(this.n_activepage_index==null){               
                 this.n_activepage_index=_.findIndex(this.n_pages, ['id', this.n_activepage]);
             }
-            return this.n_pages[this.n_activepage_index];
+            var p=this.n_pages[this.n_activepage_index];
+            return p;
         },
         currentSettingName:function(){
             //返回聚焦模块的setting设置器
@@ -115,15 +118,18 @@ export default {
         },
         activeElementSetting:function(setting){
             //获取聚焦模块的位置及style设置值
-            this.curSetting=setting;
+            console.log(this.location+' activeElementSetting');
+            this.curSetting=setting;            
         },
         updateSetting:function(setting){
+            console.log(this.curSetting.location);
             //更新聚焦模块的style
-            let ele=n_pages;
-            this.curSetting.location.forEach(location => {
-                let index=_.findIndex(ele, ['id', location.id]);   
+            let ele=this.n_pages;
+            let loc=this.curSetting.location;            
+            for(let j = 0,len=loc.length; j < len; j++) {
+                let index=_.findIndex(ele, ['id', loc[j].id]); 
                 ele=ele.children_el[index];
-            });
+            }
             ele.style=setting;
         }
     }
