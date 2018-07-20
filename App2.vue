@@ -1,0 +1,62 @@
+<template>
+    <div>        
+        <div class="btn-group-vertical " role="group" aria-label="...">            
+            <button type="button" class="btn btn-default" 
+            @click="addComponent('{{c.name}}}')" v-for="c in effectiveComponents" :key="c.name">
+            <font-awesome-icon icon="coffee" />addtext
+                </button>
+        </div>
+        <div class="left-content">
+            <div class="pages">
+                <cus-page v-for="pageinfo in n_pages" :page="pageinfo" :key="pageinfo.id" v-on:actived="activedPage"></cus-page> 
+            </div>
+        </div>
+        <div class="right-content">
+            <span class="app-name inline-block" >Simple Word</span>    
+            <div class="inline-block">
+                <button class="btn btn-primary" @click="addPage">添加新页</button>
+                <button class="btn btn-primary" @click="saveDocument">saveDocument</button>
+            </div>                    
+            
+
+            <component :is="currentSettingName" v-bind:setting="curSetting.value" v-on:updateSetting="updateSetting"></component>
+        </div>
+    </div>
+</template>
+<script>
+import { mapState } from 'vuex'
+
+export default {
+    
+}
+</script>
+
+
+
+<style>
+    .inline-block{
+        display:inline-block;
+    }
+    .left-content{
+        left:0;
+        top:0;
+        margin:0;
+        width:80%;
+        height:100%;
+        background:inherit;
+        float:left;
+        overflow:auto;
+    }
+    .right-content{
+        top:0;
+        width:20%;
+        height:100%;
+        position:fixed;
+        right:0;
+        /* background:gainsboro; */
+    }
+    .app-name{
+        line-height:30px;width:100px;border:solid 1px;color:#fff;background:blue;
+    }
+    
+</style>
