@@ -1,18 +1,21 @@
-function Base(){
-    let margin="";
-    let padding="";
-    let background="";
-    let width="";
-    let height="";
+var Base={
+    style:{
+        // margin:"",
+        // padding:"",
+        background:"",
+        width:"",
+        height:""
+    }
 }
-function Text(){
-    let margin="";
-    let padding="";
-    let background="";
-    let width="";
-    let height="";
-    let position="";
-    let text="";
+
+var Text={
+    style:{margin:"",
+    padding:"",
+    background:"",
+    width:"",
+    height:"",
+    position:""},
+    text:""
 }
 export default{
     Base,Text
