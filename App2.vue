@@ -3,30 +3,54 @@
         <div class="btn-group-vertical " role="group" aria-label="...">            
             <button type="button" class="btn btn-default" 
             @click="addComponent('{{c.name}}}')" v-for="c in effectiveComponents" :key="c.name">
-            <font-awesome-icon icon="coffee" />addtext
+            <font-awesome-icon icon="coffee" />add{{c.name}}
                 </button>
         </div>
         <div class="left-content">
-            <div class="pages">
-                <cus-page v-for="pageinfo in n_pages" :page="pageinfo" :key="pageinfo.id" v-on:actived="activedPage"></cus-page> 
-            </div>
+            <cus-document v-bind:document="getDocument"></cus-document>
         </div>
         <div class="right-content">
             <span class="app-name inline-block" >Simple Word</span>    
-            <div class="inline-block">
-                <button class="btn btn-primary" @click="addPage">添加新页</button>
-                <button class="btn btn-primary" @click="saveDocument">saveDocument</button>
-            </div>                    
-            
 
-            <component :is="currentSettingName" v-bind:setting="curSetting.value" v-on:updateSetting="updateSetting"></component>
+            <component :is="curSetting.name" v-bind:setting="curSetting.value"></component>
         </div>
     </div>
 </template>
 <script>
 import { mapState } from 'vuex'
-
 export default {
+    components:{        
+        'cus-document':()=>import("./components/cus-document.vue"),
+        'base-setting':()=>import("./components/base-setting.vue"),
+        'text-setting':()=>import("./components/text-setting.vue"),
+        'document-setting':()=>import("./components/document-setting.vue")
+    },
+    data(){
+        return{
+
+        }
+    },
+    computed: {
+        getDocument(){
+            return this.$store.getters.document;
+        },
+        curSetting(){
+            let acel=this.$store.getters.activedElement;
+            return{
+                name:acel.name+"setting",
+                value:acel.exteriorSetting
+            }
+        },
+        effectiveComponents(){
+            return this.$store.state.effectiveComponents;
+        }
+    },
+    methods:{
+        addComponent:function(name){
+            this.$store.commit('addComponent',page)
+        }, 
+    }
+    
     
 }
 </script>

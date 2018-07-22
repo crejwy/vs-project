@@ -1,12 +1,10 @@
 var Base={
     style:{
-        // margin:"",
-        // padding:"",
         background:"",
         width:"",
         height:""
     }
-}
+};
 
 var Text={
     style:{margin:"",
@@ -16,7 +14,7 @@ var Text={
     height:"",
     position:""},
     text:""
-}
+};
 export default{
     Base,Text
 };

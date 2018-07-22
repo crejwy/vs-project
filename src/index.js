@@ -1,6 +1,6 @@
 import './style.css';
 import _ from 'lodash';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
@@ -29,31 +29,52 @@ import App from "../App2.vue";
 
 const store = new Vuex.Store({
   state: {
-    document:{
+    document:{      
+      name:'document',
       childrenElement:[],
-      defaultPagesSetting:{
-        width:'600px',
-        height:'800px'
+      defaultSetting:{
+        pageSize:{
+          width:'600px',
+          height:'800px',
+          background:'white'
+        }        
       }
     },
+    activeLocation:this.state.document,
     activeSetting:{},
-    effectiveComponents:[]
+    effectiveComponents:[{
+      name:"page"
+    }]
   },
   mutations: {
-    
+    addComponent(childtype){
+      this.state.activeLocation.childrenElement.push({
+        name:childtype,
+        id:_.now()
+      });
+    },
+    activedElement(ele){
+
+    }
   },
   getters: {
-    document: state => {
-      let doc=state.document;
-      if(doc.childrenElement.length==0){
-        doc.childrenElement.push(
-          Object.assign(doc.defaultPagesSetting,{
-            id:_.now,
-            isActive:true,
-            childrenElement:[]
-          })
-        );
-      }
+    // defaultPageSize:state=>{
+    //   return state.document.defaultSetting.pageSize;
+    // },
+    document: (state,getters) => {
+      // let doc=state.document;
+      // if(doc.childrenElement.length==0){
+      //   doc.childrenElement.push(
+      //     {
+      //       id:_.now,
+      //       name:"page",
+      //       // location:[{location:"Page",id:this.document.activepage}],
+      //       isActive:true,
+      //       // exteriorSetting:Object.assign({},getters.defaultPageSize),
+      //       childrenElement:[]                      
+      //     }          
+      //   );
+      // }
       return state.document;
     }
   }

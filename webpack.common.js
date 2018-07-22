@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   entry:{
-    app: './src/index.js',   
+    app: './src/main.js',   
   },
   output: {
     filename:'[name].bundle.js',
@@ -42,6 +42,10 @@ module.exports = {
             }
         }
     }
+  },
+  resolve: {
+    alias: {  
+      vue: 'vue/dist/vue.js' }
   },
   module: {
          rules: [
