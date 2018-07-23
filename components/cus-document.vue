@@ -1,13 +1,14 @@
 <template>
-    <div>
-        <div class="pages">
-            <cus-page v-for="pageinfo in pages" :page="pageinfo" :key="pageinfo.id" @click="activedElement('{{pageinfo.id}}')"></cus-page> 
+    <div class="document" >
+        <div class="pages"  @click.self="actived()">
+            <cus-page v-for="pageinfo in pages" :page="pageinfo" :key="pageinfo.id"></cus-page> 
         </div>
     </div>
 </template>
 <script>
 import page from "./cus-page.vue"
 import { mapMutations } from 'vuex'
+   
 
 export default {
     components:{        
@@ -16,24 +17,28 @@ export default {
     props:['document'],
     data(){
         return{
-           location:"Document",
-           pages:this.document.childrenElement,
+           location:[],
            effectiveComponents:[]
         }         
     },
     computed: {
-        
+        pages(){
+            var pages=this.document.childrenElement.map(x=>Object.assign(x,{
+                location:_.concat(this.location,x.id)                
+            }));
+            return pages;
+        }
     },
     methods:{
         ...mapMutations(['activedElement']),
-        activedElement(id){
-            this.activedElement({
-                name:"document",
-                id:id
-            });
+        actived(){
+            this.activedElement(this.location);
         }
     }
     
 }
 </script>
+<style lang="less">
+    
+</style>
 

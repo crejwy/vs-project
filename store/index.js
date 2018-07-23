@@ -2,7 +2,7 @@
 
 import Vuex from 'vuex';
 Vue.use(Vuex);
-const store=new Vuex.Store({
+export default new Vuex.Store({
     state: {
         document:{      
             name:'document',
@@ -42,7 +42,7 @@ const store=new Vuex.Store({
             return state.document.defaultSetting.pageSize;
         },
         //获取当前激活元素
-        activedElement:state=>{return activedElement==null?state.document:state.activedElement;},
+        activedElement:state=>{return state.activedElement==null?state.document:state.activedElement;},
         // //获取当前激活元素外观属性
         // curexteriorSetting:(state,getters)=>{
         //     let acel=getters.activedElement;
@@ -54,6 +54,3 @@ const store=new Vuex.Store({
     }
 });
 
-export default  {
-    store
-};

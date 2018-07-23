@@ -1,19 +1,11 @@
 <template>
-    <div class="page" :class="{ active: n_page.isActive }" :id="n_page.id" :style="n_page.style" v-on:click.self="actived">
-        <component :is="childel.component" v-for="childel in n_page.children_el" :para="childel" :key="childel.id"  v-on:activeElementSetting="activeElementSetting"></component>
+    <div class="page" :class="{ active: n_page.isActive }" :id="n_page.id" :style="n_page.exteriorSetting.style" v-on:click.self="actived">
+        <component :is="catchComponentName(childel.name)" v-for="childel in childComponents" :para="childel" :key="childel.id"></component>
     </div>
 </template>
 <script>
-import settingObject from "./f-setting"
-// page={
-//     id:new Date().getTime(),
-//     style:{
-//         width:'600px',
-//         height:'800px'
-//     },
-//     isActive:false,
-//     children_el:[]
-// }
+import { mapMutations } from 'vuex'
+
 export default {
     components:{
         'cus-icon':()=>import ('./cus-icon.vue'),
@@ -26,26 +18,27 @@ export default {
     data(){
         return {
             n_page:this.page,
-            location:"Page" 
+            location:this.page.location
         }
     },
-    computed:{        
+    computed:{
+        childComponents(){
+            var childrenElements=this.n_page.childrenElement.map(x=>Object.assign(x,{
+                location:_.concat(this.location,x.id)                
+            }));
+            // console.log(childrenElement);
+            return childrenElements;
+        }        
     },
     methods:{
-        actived:function(){            
-            this.$emit("actived",this.n_page.id);         
-            this.activeElementSetting({
-                    location:[],  
-                    name:"base",
-                    value:Object.assign(settingObject.Base,{style:this.n_page.style})
-                })
+        ...mapMutations(['activedElement']),
+        actived(){
+            this.activedElement(this.n_page.location);
         },
-        activeElementSetting:function(setting){ 
-            console.log(this.location+' activeElementSetting');
-            setting.location.push({location:this.location,id:this.n_page.id});
-            console.log(setting);
-            this.$emit("activeElementSetting",setting);
+        catchComponentName(name){
+            return "cus-"+name;
         }
+            
     }    
 }
 
