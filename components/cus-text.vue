@@ -1,6 +1,6 @@
 <template>
-    <label :style="para.exteriorSetting.style" @click.self="actived">
-        {{para.exteriorSetting.text}}
+    <label :style="n_label.exteriorSetting.style" @click.self="actived">
+        {{n_label.exteriorSetting.text}}
     </label>
 </template>
 <script>
@@ -10,13 +10,14 @@ export default {
     data(){
         return{
             location:this.para.location,
-            // n_label:Object.assign({text:"change text at right"},this.para)
+            n_label:this.para
         }
     },
     methods:{
         ...mapMutations(['activedElement']),
         actived(){
-            this.activedElement(this.para.location);
+            this.activedElement(this.n_label.location);
+            // this.$forceUpdate();
         },
     }  
 }

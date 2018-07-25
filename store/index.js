@@ -1,56 +1,69 @@
-// import 'es6-promise/auto';
-
+import Vue from 'vue';
 import Vuex from 'vuex';
+import defaultExteriorSetting from '../components/defaultExteriorSetting';
+
 Vue.use(Vuex);
+
+
 export default new Vuex.Store({
     state: {
         document:{      
             name:'document',
             childrenElement:[],
-            exteriorSetting:{},
-            defaultSetting:{
-                pageSize:{
-                    width:'600px',
-                    height:'800px',
-                    background:'white'
-                }        
-            }
+            exteriorSetting:{}
+           
         },        
         
-        // activeSetting:{},
-        effectiveComponents:[{
-            name:"page"
-        }],
         activedElement:null
     },
     mutations: {        
         //添加新元素
-        addComponent:(state,childtype)=>{
-            store.getters.activedElement.childrenElement.push({
-              name:childtype,
-              id:_.now()
+        addComponent:(state,childname)=>{
+            if(state.activedElement==null){
+                state.activedElement=state.document;
+            }
+            state.activedElement.childrenElement.push({
+              name:childname,
+              id:_.now(),
+              isActive:false,
+              exteriorSetting:defaultExteriorSetting.CatchPage(childname),
+              childrenElement:[]
             });
         },
+        changeExteriorSetting:(state,setting)=>{
+            if(state.activedElement==null){
+                state.activedElement=state.document;
+            }
+            
+            var props=setting.name.split('.');
+            var target=state.activedElement.exteriorSetting;
+            if(props.length>0){
+                let i=0,len=props.length-1;
+                for(;i<len;i++){
+                    target=target[props[i]];
+                }
+                Vue.set(target,props[len],setting.value);                
+            }
+            
+        },
         //设置当前激活元素
-        activedElement:(state,target)=>{
-            state.activedElement=target;
+        activedElement:(state,location)=>{            
+            if(state.activedElement && state.activedElement.id==_.last(location)) return;
+            // console.log(location);
+            let ele=state.document;      
+            for(let j = 0,len=location.length; j < len; j++) {
+                var id=location[j];
+                let index=_.findIndex(ele.childrenElement, ['id', id]); 
+                ele=ele.childrenElement[index];
+                // console.log(ele);
+            }
+            state.activedElement=ele;
         }
     },
     getters:{        
-        //获取默认的页属性
-        defaultPageSize:state=>{
-            return state.document.defaultSetting.pageSize;
-        },
+
         //获取当前激活元素
         activedElement:state=>{return state.activedElement==null?state.document:state.activedElement;},
-        // //获取当前激活元素外观属性
-        // curexteriorSetting:(state,getters)=>{
-        //     let acel=getters.activedElement;
-        //     return{
-        //         name:acel.name+"setting",
-        //         value:acel.exteriorSetting
-        //     };
-        // },      
+          
     }
 });
-

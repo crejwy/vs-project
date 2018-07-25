@@ -1,21 +1,12 @@
 <template>
-    <div>
-        <div>
-            <label>Background:</label>
-            <input v-model="setting.style.background" />
-        </div>       
-        <div>
-            <label>Width:</label>
-            <input v-model="setting.style.width" />
-        </div>
-        <div>
-            <label>Height:</label>
-            <input v-model="setting.style.height" />
-        </div>
-    </div>
+    <basicstyle v-bind:mystyle="setting.style"></basicstyle>
 </template>
 <script>
+import basicstyle from './setting/cus-basicstyle.vue'
 export default {
-    props:['setting']
+    components:{
+        basicstyle
+    },
+    props:['setting']    
 }
 </script>
