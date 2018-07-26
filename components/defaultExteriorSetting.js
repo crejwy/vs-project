@@ -1,53 +1,37 @@
-var Base={
-    style:{
-        background:"",
-        width:"",
-        height:""
-    }
+var BaseStyle={    
+    background:"white",
+    width:"auto",
+    height:"auto",
+    opacity:1,
+    border:'none'
 };
+
+var PositionStyle=Object.assign({},BaseStyle,{
+    top:"auto",
+    right:"auto",
+    bottom:"auto",
+    left:"auto",
+    position:"absolute",
+    margin:"auto",
+    padding:"auto"
+});
 var Page={
-    style:{
-        background:"white",
+    style:Object.assign({},BaseStyle,{
         width:"600px",
         height:"800px"
-    }
+    })
 };
 
 var Text={
-    style:{
-        margin:"",
-        padding:"",
-        background:"",
-        // width:"",
-        // height:"",
-        position:"relative",
-        border:'none'
-    },
+    style:Object.assign({},BaseStyle,PositionStyle),
     text:"please init something"
 };
 var Image={
-    style:{
-        // margin:"",
-        // padding:"",
-        // background:"",
-        width:"100px",
-        height:"100px",
-        position:"relative",
-        border:'none'
-    },
+    style:Object.assign({},BaseStyle,PositionStyle),
     src:"./fa.ico"
 };
 var Input={
-    style:{
-        margin:"",
-        padding:"",
-        background:"",
-        width:"100px",
-        height:"",
-        border:'none',
-        color:"",
-        font:""
-    }
+    style:Object.assign({},BaseStyle,PositionStyle)
 };
 
 function CatchPage(name){

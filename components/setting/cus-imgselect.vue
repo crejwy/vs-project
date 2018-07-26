@@ -1,7 +1,8 @@
 <template>
     <div>
         <label>{{n_displayname}}</label>
-        <input   type="file" :src="getValue"  @change="change"/>
+        <Button @click="upclick">选择文件 </Button>
+        <input hidden ref="file_up" type="file" :src="getValue"  @change="change" accept="image/gif, image/jpeg,image/png"/>
     </div>
 </template>
 <script>
@@ -22,6 +23,9 @@ export default {
     },
     methods:{
         ...mapMutations(['changeExteriorSetting']),
+        upclick(){
+            this.$refs['file_up'].click();
+        },
         change(event){
             var files = event.target.files || event.dataTransfer.files;
             if (!files.length)                return;

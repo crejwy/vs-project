@@ -25,7 +25,7 @@ export default {
         change(event){
             this.changeExteriorSetting({
                 name:this.n_name,
-                value:event.target.value
+                value:event.target.value==""?"auto":event.target.value
             })
         }
     }

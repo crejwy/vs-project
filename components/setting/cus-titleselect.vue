@@ -1,7 +1,7 @@
 <template>
     <div>
         <label>{{n_displayname}}</label>
-        <select v-bind:value="getValue"  style="width: 100px;">
+        <select v-bind:value="getValue"  @change="change" style="width: 100px;">
             <option>relative</option>
             <option>absolute</option>
         </select>
