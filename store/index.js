@@ -44,6 +44,7 @@ export default new Vuex.Store({
                 }
                 Vue.set(target,props[len],setting.value);                
             }
+
             
         },
         //设置当前激活元素
@@ -57,6 +58,8 @@ export default new Vuex.Store({
                 ele=ele.childrenElement[index];
                 // console.log(ele);
             }
+            ele.isActive=true;
+            if(state.activedElement!=null){state.activedElement.isActive=false;}
             state.activedElement=ele;
         }
     },

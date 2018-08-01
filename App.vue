@@ -11,6 +11,7 @@
             <cus-document v-bind:document="$store.state.document"></cus-document>         
         </div>
         <div class="right-content">
+            <button @click="deleteElement()">删除</button>
             <component :is="curSettingName" v-bind:setting="curSettingValue"></component>            
             <!-- <page-setting v-bind:setting="curSettingValue"></page-setting> -->
         </div>
@@ -64,6 +65,20 @@ export default {
         saveDocument(){
             console.log(this.$store.state.document);
             
+        },deleteElement(){
+            if(this.$store.state.activedElement!=null){
+                let location=this.$store.state.activedElement.location;
+                let ele=this.$store.state.document;      
+                for(let j = 0,len=location.length; j < len; j++) {
+                    var id=location[j];
+                    let index=_.findIndex(ele.childrenElement, ['id', id]); 
+                    if(j==len-1){
+                        ele.childrenElement.splice(index,1);
+                        break;
+                    }
+                    ele=ele.childrenElement[index];
+                }           
+            }
         }
     }
     
