@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table>
+        <table @click="actived()">
             <tr>
                 <td></td>
                 <td></td>

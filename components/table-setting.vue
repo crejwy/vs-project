@@ -1,31 +1,16 @@
 <template>
     <div>
-        <div>
-            <label>Background:</label>
-            <input v-model="n_s.style.background" @change="update"/>
-        </div>       
-        <div>
-            <label>Width:</label>
-            <input v-model="n_s.style.width" @change="update"/>
-        </div>
-        <div>
-            <label>Height:</label>
-            <input v-model="n_s.style.height" @change="update"/>
-        </div>
+        <basicstyle v-bind:mystyle="setting.style"></basicstyle>
     </div>
 </template>
 <script>
+import basicstyle from './setting/cus-basicstyle.vue'
 export default {
-    props:['setting'],
-    data(){
-        return{
-            n_s:this.setting
-        }        
+    components:{
+        basicstyle
     },
-    methods:{
-        update() {
-            this.$emit("updateSetting",this.n_s);
-        },
-    }
+    props:['setting']    
 }
 </script>
+
+

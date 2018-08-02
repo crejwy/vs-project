@@ -11,14 +11,15 @@ var PositionStyle=Object.assign({},BaseStyle,{
     right:"auto",
     bottom:"auto",
     left:"auto",
-    position:"absolute",
+    position:"relative",
     margin:"auto",
     padding:"auto"
 });
 var Page={
     style:Object.assign({},BaseStyle,{
         width:"600px",
-        height:"800px"
+        height:"800px",
+        padding:"20px"
     })
 };
 
@@ -33,6 +34,19 @@ var Image={
 var Input={
     style:Object.assign({},BaseStyle,PositionStyle)
 };
+var Table={
+    style:{
+        top:"auto",
+        right:"auto",
+        bottom:"auto",
+        left:"auto",
+        position:"relative",
+        margin:"auto",
+        background:"white",
+        opacity:1,
+        border:'none'
+    }
+};
 
 function CatchPage(name){
     let object;
@@ -40,7 +54,7 @@ function CatchPage(name){
         case 'page':object=_.cloneDeep(Page);break;
         case 'text':object=_.cloneDeep(Text);break;
         case 'image':object=_.cloneDeep(Image);break;
-        // case 'page':object=Object.assign({},Page);break;
+        case 'table':object=Object.assign({},Table);break;
         // case 'page':object=Object.assign({},Page);break;
     }
     return  object;
